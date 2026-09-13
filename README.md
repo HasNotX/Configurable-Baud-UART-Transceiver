@@ -4,52 +4,7 @@
 This project is a custom UART transceiver featuring a configurable baud rate and asynchronous FIFOs on both the TX and RX sides. This design inherently supports Clock Domain Crossing (CDC), safely bridging data between a master system and the internal UART logic that operate on independent clocks.
 
 ```mermaid
-flowchart TD
-    %% Define Boundaries
-    subgraph System Domain [System Clock Domain `clk_sys`]
-        SYS_TX[System TX Bus]
-        SYS_RX[System RX Bus]
-    end
 
-    subgraph Top Level [uart_transceiver_top]
-        direction TB
-        
-        subgraph TX_FIFO [TX Asynchronous FIFO]
-            direction LR
-            WR_TX(Write Port `clk_sys`) --> RD_TX(Read Port `clk_uart`)
-        end
-        
-        subgraph RX_FIFO [RX Asynchronous FIFO]
-            direction RL
-            RD_RX(Read Port `clk_sys`) <-- WR_RX(Write Port `clk_uart`)
-        end
-
-        BAUD_GEN[Baud Rate Generator `clk_uart`]
-        UART_TX[UART Transmitter FSM `clk_uart`]
-        UART_RX[UART Receiver FSM `clk_uart`]
-    end
-
-    subgraph UART Domain [Physical Interface]
-        TX_PIN((uart_tx))
-        RX_PIN((uart_rx))
-    end
-
-    %% Data Path Connections
-    SYS_TX ==>|tx_data_in| WR_TX
-    RD_TX ==>|w_tx_fifo_data_out| UART_TX
-    UART_TX --> TX_PIN
-
-    RX_PIN --> UART_RX
-    UART_RX ==>|w_rx_fsm_data_out| WR_RX
-    WR_RX ==>|rx_data_out| SYS_RX
-
-    %% Control / Clock Connections
-    BAUD_GEN -.->|baud_tick| UART_TX
-    BAUD_GEN -.->|baud_tick| UART_RX
-
-    classDef cdc fill:#ffebcd,stroke:#d2691e,stroke-width:2px,stroke-dasharray: 5 5
-    class TX_FIFO,RX_FIFO cdc
-```
 
 ## Clock Domain Crossing (CDC)
 To safely pass data between the `clk_sys` domain and the `clk_uart` domain, the design employs **Asynchronous FIFOs** with the following mechanisms:
