@@ -3,8 +3,6 @@
 ## Overview & Architecture
 This project is a custom UART transceiver featuring a configurable baud rate and asynchronous FIFOs on both the TX and RX sides. This design inherently supports Clock Domain Crossing (CDC), safely bridging data between a master system and the internal UART logic that operate on independent clocks.
 
-```mermaid
-
 
 ## Clock Domain Crossing (CDC)
 To safely pass data between the `clk_sys` domain and the `clk_uart` domain, the design employs **Asynchronous FIFOs** with the following mechanisms:
