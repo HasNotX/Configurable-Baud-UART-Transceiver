@@ -12,8 +12,8 @@ The table below summarizes the setup and hold slack for the target operating fre
 
 | Clock Domain | Target Frequency | Required Period | Setup Slack (WNS) | Hold Slack (WHS) | Failing Endpoints | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`clk_sys`** (System) | **100.0 MHz** | 10.000 ns | **+6.177 ns** | **+0.142 ns** | 0 | ✅ **PASS** |
-| **`clk_uart`** (UART) | **50.0 MHz** | 20.000 ns | **+15.453 ns** | **+0.134 ns** | 0 | ✅ **PASS** |
+| **`clk_sys`** (System) | **100.0 MHz** | 10.000 ns | **+6.177 ns** | **+0.142 ns** | 0 |  **PASS** |
+| **`clk_uart`** (UART) | **50.0 MHz** | 20.000 ns | **+15.453 ns** | **+0.134 ns** | 0 |  **PASS** |
 
 ###  Key Takeaways
 - **Robust Setup Margins**: With a WNS (Worst Negative Slack) of +6.177 ns on the system clock and +15.453 ns on the UART clock, the logic paths are short and highly optimized. This ensures data is safely captured well before the next clock edge, immune to reasonable variations in temperature or voltage.
